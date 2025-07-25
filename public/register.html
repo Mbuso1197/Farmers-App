@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    form {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+    }
+    input, select, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📝 Register</h1>
+
+  <form id="registerForm">
+    <input type="text" id="name" placeholder="Full Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <select id="role" required>
+      <option value="">Choose role</option>
+      <option value="farmer">Farmer</option>
+      <option value="buyer">Buyer</option>
+    </select>
+    <button type="submit">Register</button>
+  </form>
+
+  <p style="text-align:center;">Already have an account? <a href="login.html">Login</a></p>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const user = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+        role: document.getElementById("role").value
+      };
+
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      });
+
+      if (res.ok) {
+        alert("✅ Registered successfully!");
+        window.location.href = "login.html";
+      } else {
+        alert("❌ Registration failed.");
+      }
+    });
+  </script>
+</body>
+</html>

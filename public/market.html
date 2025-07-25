@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Farmers Marketplace</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 10px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .filter-card {
+      background: #f4f4f4;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .filter-card input[type="text"] {
+      padding: 10px;
+      width: 60%;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .filter-card select {
+      padding: 10px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .filter-card button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    .filter-card button:hover {
+      background-color: #45a049;
+    }
+    .item-card {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .item-card h2 {
+      margin-top: 0;
+    }
+    .item-card button {
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    .item-card button:hover {
+      background-color: #0b7dda;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="text-align:center;">Farmers Marketplace</h1>
+
+    <div class="filter-card">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search products..."
+        aria-label="Search products"
+      />
+      <br />
+      <select id="categoryFilter" aria-label="Filter by category">
+        <option value="">All Categories</option>
+        <option value="Crop">Crop</option>
+        <option value="Livestock">Livestock</option>
+      </select>
+      <button onclick="applyFilters()">Apply</button>
+    </div>
+
+    <div id="marketList"></div>
+  </div>
+
+  <script>
+    let allProducts = [];
+
+    async function loadProducts() {
+      const res = await fetch("/api/products");
+      const data = await res.json();
+      allProducts = data;
+      displayProducts(allProducts);
+    }
+
+    function displayProducts(products) {
+      const marketList = document.getElementById("marketList");
+      marketList.innerHTML = ""; // Clear previous
+
+      if (products.length === 0) {
+        marketList.innerHTML = "<p>No products found.</p>";
+        return;
+      }
+
+      products.forEach(product => {
+        const item = document.createElement("div");
+        item.className = "item-card";
+        item.innerHTML = `
+          <h2>${product.name}</h2>
+          <p><strong>Category:</strong> ${product.category}</p>
+          <p>${product.description}</p>
+          <p><strong>Price:</strong> ${product.price}</p>
+          <button onclick="contactFarmer('${product.name}')">Contact Farmer</button>
+        `;
+        marketList.appendChild(item);
+      });
+    }
+
+    function applyFilters() {
+      const searchText = document.getElementById("searchInput").value.toLowerCase();
+      const category = document.getElementById("categoryFilter").value;
+
+      const filtered = allProducts.filter(p => {
+        const matchesText = p.name.toLowerCase().includes(searchText);
+        const matchesCategory = category ? p.category === category : true;
+        return matchesText && matchesCategory;
+      });
+
+      displayProducts(filtered);
+    }
+
+    function contactFarmer(productName) {
+      window.location.href = `chat.html?product=${encodeURIComponent(productName)}`;
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>

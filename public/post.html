@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post Crops or Livestock</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>📤 Post Your Crop or Livestock</h1>
+
+  <form id="postForm">
+  <input type="text" id="name" placeholder="Product Name" required />
+  <textarea id="desc" placeholder="Description" rows="4" required></textarea>
+  <select id="cat" required>
+    <option value="">Select Category</option>
+    <option value="crop">Crop</option>
+    <option value="livestock">Livestock</option>
+  </select>
+  <input type="number" id="price" placeholder="Price (R)" required />
+  <button type="submit">Post</button>
+</form>
+
+<script>
+  document.getElementById("postForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const product = {
+      name: document.getElementById("name").value,
+      description: document.getElementById("desc").value,
+      category: document.getElementById("cat").value,
+      price: "R" + document.getElementById("price").value
+    };
+
+    const res = await fetch("/api/products", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product)
+    });
+
+    if (res.ok) {
+      alert("✅ Product posted!");
+      window.location.href = "dashboard.html";
+    } else {
+      alert("❌ Failed to post.");
+    }
+  });
+</script>
+</body>
+</html>

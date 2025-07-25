@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Farmers App Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🌾 Welcome to Your Dashboard</h1>
+
+  <div class="buttons">
+    <button onclick="goToPage('post.html')">📤 Post Crops/Livestock</button>
+    <button onclick="goToPage('market.html')">🛒 View Market</button>
+    <button onclick="goToPage('profile.html')">👤 Profile</button>
+    <button onclick="goToPage('index.html')">🚪 Logout</button>
+  </div>
+
+  <script>
+    function goToPage(page) {
+      window.location.href = page;
+    }
+
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+  <div id="userInfo"></div>
+  <button onclick="logout()" style="padding: 8px 12px; background: red; color: white; border: none; border-radius: 6px;">Logout</button>
+</div>
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) {
+    document.getElementById("userInfo").innerHTML = `<h2>Welcome, ${user.name} (${user.role})</h2>`;
+  } else {
+    window.location.href = "login.html";
+  }
+
+  function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+  }
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat with Farmer</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .chat-container {
+      max-width: 500px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .chat-box {
+      height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .message {
+      background-color: #e1f3e1;
+      padding: 8px 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      max-width: 80%;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+    }
+
+    .input-area button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>💬 Chat with Farmer</h1>
+  <h2 id="productInfo">Talking about: </h2>
+
+
+  <div class="chat-container">
+    <div class="chat-box" id="chatBox">
+      <div class="message">Hi, I'm interested in your products!</div>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="messageInput" placeholder="Type your message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <a href="dashboard.html">⬅ Back to Dashboard</a>
+
+  <script>
+  // Get product name from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const product = urlParams.get("product");
+
+  if (product) {
+    document.getElementById("productInfo").textContent = `Talking about: ${product}`;
+  }
+
+  // Load all messages on page load
+  async function loadMessages() {
+    const res = await fetch("/api/messages");
+    const messages = await res.json();
+
+    const chatBox = document.getElementById("chatBox");
+    chatBox.innerHTML = ""; // clear
+
+    messages.forEach(msg => {
+      const message = document.createElement("div");
+      message.className = "message";
+      message.textContent = msg.text;
+      chatBox.appendChild(message);
+    });
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  loadMessages(); // Load chat on start
+
+  // Save new message
+  async function sendMessage() {
+    const input = document.getElementById("messageInput");
+    const text = input.value.trim();
+
+    if (text !== "") {
+      const newMessage = { text }; // You can add user or product later
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newMessage)
+      });
+
+      input.value = "";
+      loadMessages(); // Refresh chat
+    }
+  }
+</script>
+</body>
+</html>
