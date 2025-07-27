@@ -4,32 +4,24 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// Middleware to serve static files from 'public'
+// Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Route to serve the homepage (index.html)
+// Serve index.html for homepage
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Add more routes if needed (e.g. for dashboard, market, etc.)
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-
-app.post('/register', (req, res) => {
-  console.log('📦 New registration:', req.body);
-  res.send('Thanks for registering!');
-});
-
-
-app.listen(PORT, () => {
-  console.log(`✅ Farmers App is running at http://localhost:${PORT}`);
-});
-
+// Handle registration
 app.post('/register', (req, res) => {
   console.log('📦 New registration:', req.body);
   res.send('Registration received!');
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Farmers App running at http://localhost:${PORT}`);
 });

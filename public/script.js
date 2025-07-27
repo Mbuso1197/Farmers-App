@@ -1,11 +1,11 @@
-// script.js
+// public/script.js
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('signupForm');
 
   if (form) {
     form.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Stop the form from reloading the page
+      e.preventDefault(); // Prevent default form action
 
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
@@ -20,10 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const result = await response.text();
-        alert('✅ Registered successfully!\n' + result);
+        alert('✅ Registration successful!\n' + result);
       } catch (error) {
-        console.error('❌ Registration failed:', error);
-        alert('Something went wrong. Please try again.');
+        console.error('❌ Registration error:', error);
+        alert('Something went wrong.');
       }
     });
   }
