@@ -18,6 +18,18 @@ app.get('/', (req, res) => {
 
 // Start the server
 const PORT = process.env.PORT || 3000;
+
+app.post('/register', (req, res) => {
+  console.log('📦 New registration:', req.body);
+  res.send('Thanks for registering!');
+});
+
+
 app.listen(PORT, () => {
   console.log(`✅ Farmers App is running at http://localhost:${PORT}`);
+});
+
+app.post('/register', (req, res) => {
+  console.log('📦 New registration:', req.body);
+  res.send('Registration received!');
 });
