@@ -1,37 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Farmers App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/style.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 40px;
+      padding-top: 60px;
     }
 
-    .button-link {
-      display: inline-block;
-      margin: 20px;
-      padding: 15px 30px;
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .button-container a button {
+      padding: 15px 35px;
       font-size: 18px;
-      text-decoration: none;
-      background-color: #4CAF50;
+      background-color: #28a745;
       color: white;
-      border-radius: 8px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
-    .button-link:hover {
-      background-color: #45a049;
+    .button-container a button:hover {
+      background-color: #218838;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to Farmers App</h1>
-  <p>Choose your role:</p>
+  <h1>Welcome to the Farmers App</h1>
+  <p>Select your role to continue:</p>
 
-  <a href="/signup-farmer.html" class="button-link">I am a Farmer👨‍🌾</a>
-  <a href="/signup-buyer.html" class="button-link">I am a Buyer🧺</a>
+  <div class="button-container">
+    <a href="/signup-farmer.html">
+      <button>I am a Farmer</button>
+    </a>
+    <a href="/signup-buyer.html">
+      <button>I am a Buyer</button>
+    </a>
+  </div>
 </body>
 </html>

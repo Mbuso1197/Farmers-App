@@ -1,11 +1,9 @@
-// public/script.js
-
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('signupForm');
 
   if (form) {
     form.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Prevent default form action
+      e.preventDefault();
 
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
@@ -19,10 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify(data),
         });
 
-        const result = await response.text();
-        alert('✅ Registration successful!\n' + result);
+        if (response.ok) {
+          // ✅ Redirect after successful registration
+          window.location.href = "/dashboard.html";
+        } else {
+          alert('❌ Registration failed. Please try again.');
+        }
       } catch (error) {
-        console.error('❌ Registration error:', error);
+        console.error('❌ Error:', error);
         alert('Something went wrong.');
       }
     });
